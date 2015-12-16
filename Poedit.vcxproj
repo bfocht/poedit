@@ -277,6 +277,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Poedit.Targets">
       <SubType>Designer</SubType>
     </None>

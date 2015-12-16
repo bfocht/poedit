@@ -16,7 +16,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <DebugSuffix></DebugSuffix>
   </PropertyGroup>
-  
+
   <PropertyGroup>
     <ResourcesOutDir>$(OutDir)Resources\</ResourcesOutDir>
     <TranslationsOutDir>$(OutDir)Translations\</TranslationsOutDir>
@@ -66,19 +66,8 @@
     <GitBuildNumberFile>$(MSBuildProjectDirectory)\$(IntermediateOutputPath)\git_build_number.h</GitBuildNumberFile>
     <GitBuildNumberOldDefine Condition="Exists('$(GitBuildNumberFile)')">$([System.IO.File]::ReadAllText($(GitBuildNumberFile)).Trim())</GitBuildNumberOldDefine>
   </PropertyGroup>
-  <Target Name="GetGitVersion" BeforeTargets="ClCompile">
-    <GitCommits>
-      <Output TaskParameter="CommitsCount" PropertyName="GitBuildNumber" />
-    </GitCommits>
-    <CreateProperty Value="#define POEDIT_GIT_BUILD_NUMBER $(GitBuildNumber)">
-      <Output TaskParameter="Value" PropertyName="GitBuildNumberDefine"/>
-    </CreateProperty>
-    <Message Importance="High" Text="Updating git build number to $(GitBuildNumber)..."
-             Condition="$(GitBuildNumberDefine)!=$(GitBuildNumberOldDefine)" />
-    <WriteLinesToFile File="$(GitBuildNumberFile)" Lines="$(GitBuildNumberDefine)" Overwrite="true"
-                      Condition="$(GitBuildNumberDefine)!=$(GitBuildNumberOldDefine)" />
-    </Target>
-    
+
+
 
   <Target Name="CopyDLLs" AfterTargets="Link">
     <Message Importance="High" Text="Copying 3rd party DLLs to $(OutDir)" />
@@ -89,7 +78,7 @@
     />
   </Target>
 
- 
+
   <Target Name="CopyDataFiles" AfterTargets="Link">
     <Message Importance="High" Text="Copying resources to $(ResourcesOutDir)" />
     <MakeDir Directories="$(ResourcesOutDir)" />
@@ -98,28 +87,6 @@
       DestinationFolder="$(ResourcesOutDir)"
       SkipUnchangedFiles="true"
     />
-  </Target>
-
-
-  <Target Name="CopyTranslations_Poedit" AfterTargets="Link"
-          Inputs="@(TranslationFiles)"
-          Outputs="@(TranslationFiles->'$(TranslationsOutDir)%(Filename)\poedit.mo')">
-    <MakeDir Directories="@(TranslationFiles->'$(TranslationsOutDir)\%(Filename)')" />
-    <Exec Command='$(Msgfmt) -o "$(TranslationsOutDir)%(TranslationFiles.Filename)\poedit.mo" @(TranslationFiles)' />
-  </Target>
-
-  <Target Name="CopyTranslations_WX" AfterTargets="Link"
-        Inputs="@(TranslationFilesWX)"
-        Outputs="@(TranslationFilesWX->'$(TranslationsOutDir)%(Filename)\wxstd.mo')">
-    <MakeDir Directories="@(TranslationFilesWX->'$(TranslationsOutDir)\%(Filename)')" />
-    <Exec Command='$(Msgfmt) -o "$(TranslationsOutDir)%(TranslationFilesWX.Filename)\wxstd.mo" @(TranslationFilesWX)' />
-  </Target>
-
-  <Target Name="CopyTranslations_WXMSW" AfterTargets="Link"
-        Inputs="@(TranslationFilesWXMSW)"
-        Outputs="@(TranslationFilesWXMSW->'$(TranslationsOutDir)%(Filename)\wxmsw.mo')">
-    <MakeDir Directories="@(TranslationFilesWXMSW->'$(TranslationsOutDir)\%(Filename)')" />
-    <Exec Command='$(Msgfmt) -o "$(TranslationsOutDir)%(TranslationFilesWXMSW.Filename)\wxmsw.mo" @(TranslationFilesWXMSW)' />
   </Target>
 
 
