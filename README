@@ -68,12 +68,15 @@ They can be installed with Homebrew and macosx/Brewfile:
     brew bundle macosx/
 
 
- Windows using Visual Studio 2013
+ Windows using Visual Studio 2015
 ----------------------------------
 
 You need a full git checkout to build on Windows; see below for details.
 
 After checkout, use the Poedit.sln solution.
+Add Gettext.Tools via NuGet
+Copy the entire contents of `deps\wx` to `deps\winsparkle\3rdparty\wxWidgets`
+Build the Poedit project
 
 
  Installing from Git repository
@@ -109,7 +112,7 @@ can ignore Windows-specific dependencies.
  License
 =========
 
-Poedit is released under the MIT license and you're free to do 
+Poedit is released under the MIT license and you're free to do
 whatever you want with it and its source code (well, almost :-) -- see the
 license text).
 
